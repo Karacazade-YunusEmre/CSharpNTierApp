@@ -72,7 +72,7 @@ namespace NTierApp.DataAccess.Concrete.AdoNet
                 _ConnectionControl();
                 _sqlCommand =
                     new SqlCommand(
-                        "Insert into Products values(@ProductName, @CategoryID, @QuantityPerUnit, @UnitPrice, @UnitsInStock)",
+                        "Insert into Products (ProductName, CategoryID, QuantityPerUnit, UnitPrice, UnitsInStock) values(@ProductName, @CategoryID, @QuantityPerUnit, @UnitPrice, @UnitsInStock)",
                         _connection);
                 _sqlCommand.Parameters.AddWithValue("@ProductName", entity.ProductName);
                 _sqlCommand.Parameters.AddWithValue("@CategoryID", entity.CategoryId);
