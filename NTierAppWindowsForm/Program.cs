@@ -1,4 +1,4 @@
-namespace NTierAppWindowsForm
+namespace NTierApp.WindowsForm
 {
     internal static class Program
     {

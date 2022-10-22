@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32929.385
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NTierAppWindowsForm", "NTierAppWindowsForm\NTierAppWindowsForm.csproj", "{662BFDEF-9AEB-4A6C-9079-EDB3731AD829}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NTierApp.WindowsForm", "NTierAppWindowsForm\NTierApp.WindowsForm.csproj", "{662BFDEF-9AEB-4A6C-9079-EDB3731AD829}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NTierAppEntities", "NTierAppEntities\NTierAppEntities.csproj", "{B600142E-9BFB-4A91-A1C8-B7A06026588A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NTierApp.Entities", "NTierAppEntities\NTierApp.Entities.csproj", "{B600142E-9BFB-4A91-A1C8-B7A06026588A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NTierAppDataAccess", "NTierAppDataAccess\NTierAppDataAccess.csproj", "{F917634F-9C41-4D39-BC9C-0E7F6F38651E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NTierApp.DataAccess", "NTierAppDataAccess\NTierApp.DataAccess.csproj", "{F917634F-9C41-4D39-BC9C-0E7F6F38651E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NTierAppBusiness", "NTierAppBusiness\NTierAppBusiness.csproj", "{E0733C94-4331-42CE-9453-E5A650CDE582}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NTierApp.Business", "NTierAppBusiness\NTierApp.Business.csproj", "{E0733C94-4331-42CE-9453-E5A650CDE582}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
