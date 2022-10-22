@@ -1,5 +1,6 @@
 ﻿using NTierApp.Business.Abstract;
 using NTierApp.Business.Concrete;
+using NTierApp.DataAccess.Concrete.AdoNet;
 using NTierApp.DataAccess.Concrete.EntityFramework;
 using NTierApp.Entities.Concrete;
 
@@ -12,8 +13,10 @@ namespace NTierApp.WindowsForm
         public Form1()
         {
             InitializeComponent();
-            _productManager = new ProductManager(new EfProductDal());
-            _categoryManager = new CategoryManager(new EfCategoryDal());
+            //_productManager = new ProductManager(new EfProductDal());
+            //_categoryManager = new CategoryManager(new EfCategoryDal());
+            _productManager = new ProductManager(new AdnProductDal());
+            _categoryManager = new CategoryManager(new AdnCategoryDal());
         }
 
         private void Form1_Load(object sender, EventArgs e)
