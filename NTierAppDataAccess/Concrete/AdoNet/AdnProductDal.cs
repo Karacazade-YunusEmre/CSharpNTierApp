@@ -1,4 +1,5 @@
 ﻿using System.Data;
+using System.Linq.Expressions;
 using Microsoft.Data.SqlClient;
 using NTierApp.DataAccess.Abstract;
 using NTierApp.Entities.Concrete;
@@ -11,8 +12,7 @@ namespace NTierApp.DataAccess.Concrete.AdoNet
         private SqlCommand? _sqlCommand;
         private SqlDataReader? _reader;
 
-
-        public List<Product> GetAll()
+        public List<Product> GetAll(Expression<Func<Product, bool>>? filter = null)
         {
             using (_connection)
             {
@@ -38,10 +38,9 @@ namespace NTierApp.DataAccess.Concrete.AdoNet
                 _ConnectionClose();
                 return productList;
             }
-
         }
 
-        public Product? Get(int id)
+        public Product? Get(Expression<Func<Product, bool>> filter)
         {
             using (_connection)
             {

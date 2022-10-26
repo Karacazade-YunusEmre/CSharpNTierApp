@@ -1,7 +1,6 @@
-﻿using NTierApp.Business.Abstract;
-using NTierApp.Business.Concrete;
-using NTierApp.DataAccess.Concrete.AdoNet;
-using NTierApp.DataAccess.Concrete.EntityFramework;
+﻿using Ninject;
+using NTierApp.Business.Abstract;
+using NTierApp.Business.DependencyResolvers.Ninject;
 using NTierApp.Entities.Concrete;
 
 namespace NTierApp.WindowsForm
@@ -10,13 +9,17 @@ namespace NTierApp.WindowsForm
     {
         private readonly IProductService _productManager;
         private readonly ICategoryService _categoryManager;
+
         public Form1()
         {
             InitializeComponent();
-            //_productManager = new ProductManager(new EfProductDal());
-            //_categoryManager = new CategoryManager(new EfCategoryDal());
-            _productManager = new ProductManager(new AdnProductDal());
-            _categoryManager = new CategoryManager(new AdnCategoryDal());
+
+            _productManager = new StandardKernel(new BusinessModule()).Get<IProductService>();
+            _categoryManager = new StandardKernel(new BusinessModule()).Get<ICategoryService>();
+            // _productManager = new ProductManager(new EfProductDal());
+            // _categoryManager = new CategoryManager(new EfCategoryDal());
+            // _productManager = new ProductManager(new AdnProductDal());
+            // _categoryManager = new CategoryManager(new AdnCategoryDal());
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -59,7 +62,6 @@ namespace NTierApp.WindowsForm
 
         private void dgvProduct_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-
             var row = dgvProduct.CurrentRow;
             if (row != null)
             {
@@ -73,42 +75,56 @@ namespace NTierApp.WindowsForm
 
         private void btnUpdate_Click(object sender, EventArgs e)
         {
-            var row = dgvProduct.CurrentRow;
-
-            if (row != null)
+            try
             {
-                Product product = new Product
+                var row = dgvProduct.CurrentRow;
+
+                if (row != null)
                 {
-                    ProductName = tbxUpdateProductName.Text,
-                    CategoryId = Convert.ToInt32(cbxUpdateCategory.SelectedValue),
-                    ProductId = Convert.ToInt32(row.Cells[0].Value),
-                    QuantityPerUnit = tbxUpdateQuantityPerUnit.Text,
-                    UnitPrice = Convert.ToDecimal(tbxUpdatePrice.Text),
-                    UnitsInStock = Convert.ToInt16(tbxUpdateStockAmount.Text),
-                };
+                    Product product = new Product
+                    {
+                        ProductName = tbxUpdateProductName.Text,
+                        CategoryId = Convert.ToInt32(cbxUpdateCategory.SelectedValue),
+                        ProductId = Convert.ToInt32(row.Cells[0].Value),
+                        QuantityPerUnit = tbxUpdateQuantityPerUnit.Text,
+                        UnitPrice = Convert.ToDecimal(tbxUpdatePrice.Text),
+                        UnitsInStock = Convert.ToInt16(tbxUpdateStockAmount.Text),
+                    };
 
-                _productManager.Update(product);
+                    _productManager.Update(product);
+                }
+
+                MessageBox.Show(@"Ürün Başarıyla Güncellendi");
+                LoadDgvProduct();
             }
-
-            MessageBox.Show(@"Ürün Başarıyla Güncellendi");
-            LoadDgvProduct();
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.Message);
+            }
         }
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            Product product = new Product()
+            try
             {
-                ProductName = tbxAddProductName.Text,
-                CategoryId = Convert.ToInt32(cbxAddCategory.SelectedValue),
-                QuantityPerUnit = tbxAddQuantityPerUnit.Text,
-                UnitPrice = Convert.ToDecimal(tbxAddPrice.Text),
-                UnitsInStock = Convert.ToInt16(tbxAddStockAmount.Text),
-            };
+                Product product = new Product()
+                {
+                    ProductName = tbxAddProductName.Text,
+                    CategoryId = Convert.ToInt32(cbxAddCategory.SelectedValue),
+                    QuantityPerUnit = tbxAddQuantityPerUnit.Text,
+                    UnitPrice = Convert.ToDecimal(tbxAddPrice.Text),
+                    UnitsInStock = Convert.ToInt16(tbxAddStockAmount.Text),
+                };
 
-            _productManager.Add(product);
-            MessageBox.Show(@"Ürün başarıyla eklendi");
-            LoadDgvProduct();
-            ClearTextBoxes(gbxAddProduct);
+                _productManager.Add(product);
+                MessageBox.Show(@"Ürün başarıyla eklendi");
+                LoadDgvProduct();
+                ClearTextBoxes(gbxAddProduct);
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.Message);
+            }
         }
 
         private void ClearTextBoxes(Control controls)
@@ -137,14 +153,14 @@ namespace NTierApp.WindowsForm
             MessageBox.Show(@"Seçtiğiniz ürün başarıyla silindi!");
             ClearTextBoxes(gbxUpdateProduct);
             LoadDgvProduct();
-
         }
 
         private void cbxSearchByCategory_SelectedIndexChanged(object sender, EventArgs e)
         {
             try
             {
-                dgvProduct.DataSource = _productManager.GetProductsByCategory(Convert.ToInt32(cbxSearchByCategory.SelectedValue));
+                dgvProduct.DataSource =
+                    _productManager.GetProductsByCategory(Convert.ToInt32(cbxSearchByCategory.SelectedValue));
             }
             catch (Exception exception)
             {

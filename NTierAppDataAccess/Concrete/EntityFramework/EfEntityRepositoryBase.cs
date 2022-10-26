@@ -1,21 +1,23 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore;
 using NTierApp.DataAccess.Abstract;
 using NTierApp.Entities.Abstract;
 
 namespace NTierApp.DataAccess.Concrete.EntityFramework
 {
-    public class EfEntityRepositoryBase<TEntity, TContext> : IEntityRepository<TEntity> where TEntity : class, IEntity, new() where TContext : DbContext, new()
+    public class EfEntityRepositoryBase<TEntity, TContext> : IEntityRepository<TEntity>
+        where TEntity : class, IEntity, new() where TContext : DbContext, new()
     {
-        public List<TEntity> GetAll()
+        public List<TEntity> GetAll(Expression<Func<TEntity, bool>>? filter = null)
         {
             using TContext context = new TContext();
-            return context.Set<TEntity>().ToList();
+            return filter == null ? context.Set<TEntity>().ToList() : context.Set<TEntity>().Where(filter).ToList();
         }
 
-        public TEntity? Get(int id)
+        public TEntity? Get(Expression<Func<TEntity, bool>> filter)
         {
             using TContext context = new TContext();
-            return context.Set<TEntity>().SingleOrDefault();
+            return context.Set<TEntity>().SingleOrDefault(filter);
         }
 
         public void Add(TEntity entity)

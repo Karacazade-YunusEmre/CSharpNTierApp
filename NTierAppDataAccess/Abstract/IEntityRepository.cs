@@ -1,11 +1,12 @@
-﻿using NTierApp.Entities.Abstract;
+﻿using System.Linq.Expressions;
+using NTierApp.Entities.Abstract;
 
 namespace NTierApp.DataAccess.Abstract
 {
     public interface IEntityRepository<T> where T : class, IEntity, new()
     {
-        List<T> GetAll();
-        T? Get(int id);
+        List<T> GetAll(Expression<Func<T, bool>>? filter = null);
+        T? Get(Expression<Func<T, bool>> filter);
         void Add(T entity);
         void Update(T entity);
         void Delete(T entity);

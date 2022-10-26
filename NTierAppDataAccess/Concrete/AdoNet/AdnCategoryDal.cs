@@ -1,4 +1,5 @@
 ﻿using System.Data;
+using System.Linq.Expressions;
 using Microsoft.Data.SqlClient;
 using NTierApp.DataAccess.Abstract;
 using NTierApp.Entities.Concrete;
@@ -55,6 +56,16 @@ namespace NTierApp.DataAccess.Concrete.AdoNet
                 _ConnectionClose();
                 return category;
             }
+        }
+
+        public List<Category> GetAll(Expression<Func<Category, bool>>? filter = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Category? Get(Expression<Func<Category, bool>> filter)
+        {
+            throw new NotImplementedException();
         }
 
         public void Add(Category entity)
